@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const [city] = process.argv.slice(2);
+const [city, type] = process.argv.slice(2);
 const forecast = process.argv[3];
 
 let dt = new Date(1571207117 * 1000);
@@ -8,13 +8,17 @@ let res = dt.toISOString().substring(0, 10);
 
 console.log(res);
 
-const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=9c116980cd34f1346e401f71e9263fee&units=metric`;
+let url = "";
 
-const forecastUrl = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=9c116980cd34f1346e401f71e9263fee&units=metric`;
+if (type === "now") {
+  url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=9c116980cd34f1346e401f71e9263fee&units=metric`;
+} else if (type === "week") {
+  url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=9c116980cd34f1346e401f71e9263fee&units=metric`;
+}
 
 theThing = async () => {
   await axios
-    .get(weatherUrl)
+    .get(url)
     .then(res => {
       const data = res.data;
 
